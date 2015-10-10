@@ -19,7 +19,8 @@ var Tasks = {
 		knex.select('task').from('tasks').asCallback(function(err, tasks) {
       		if (err) return console.error(err);
 
-      		callback(tasks);
+      			callback(tasks);
+
 
       	});
 	},
