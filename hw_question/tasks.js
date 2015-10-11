@@ -4,7 +4,7 @@ var knex = require('knex')({
     connection: {
       host     : '127.0.0.1',
       user     : 'root',
-      password : 'wpcrud47',
+      password : '',
       database : 'testnodebd',
       charset  : 'utf8'
     },
