@@ -19,10 +19,7 @@ var $ = cheerio;
 
 app.get('/', function(req, res) {
 	tasks.list(function(err, tasks) {
-		if (err) console.log(err);
-
-		console.dir(tasks);
-
+		console.log(tasks);
 		templates.handlebars(
 			'views/tasks.hbs', 
 			{tasks: tasks},
