@@ -4,7 +4,7 @@ var knex = require('knex')({
     connection: {
       host     : '127.0.0.1',
       user     : 'root',
-      password : '',
+      password : 'wpcrud47',
       database : 'testnodebd',
       charset  : 'utf8'
     },
@@ -16,12 +16,11 @@ var knex = require('knex')({
 
 var Tasks = {
 	list: function(callback) {
-		knex.select('task').from('tasks').asCallback(function(err, tasks) {
+		knex.select('*').from('tasks').asCallback(function(err, data) {
       		if (err) return console.error(err);
-
-      			callback(tasks);
-
-
+          
+			//console.log(data);          
+      		callback(data);
       	});
 	},
 

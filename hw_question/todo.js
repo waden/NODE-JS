@@ -18,11 +18,11 @@ var cheerio = require('cheerio');
 var $ = cheerio;
 
 app.get('/', function(req, res) {
-	tasks.list(function(err, tasks) {
-		console.log(tasks);
-		templates.handlebars(
+	tasks.list(function(err, bdansw) {
+			console.log(bdansw);
+			templates.handlebars(
 			'views/tasks.hbs', 
-			{tasks: tasks},
+			{tasks: bdansw},
 			function(err, html) {
 				if (err) 
 					throw err;
@@ -36,6 +36,7 @@ app.get('/', function(req, res) {
 		)
 	});
 });
+
 
 app.post('/', function(req, res) {
 	tasks.add(req.body.task, function() {
