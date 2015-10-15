@@ -18,27 +18,60 @@ var Tasks = {
 	list: function(callback) {
 		knex.select('*').from('tasks').asCallback(function(err, data) {
       		if (err) return console.error(err);
-          
-			//console.log(data);          
-      		callback(data);
+                
+      		callback(null, data);
+      	});
+	},
+	listOne: function(id,callback) {
+		knex('tasks').where({
+			'id' : id
+		}).select('task').asCallback(function(err, data) {
+      		if (err) return console.error(err);
+                
+      		callback(null, data);
       	});
 	},
 
-	add: function(task, callback) {
-		knex('tasks').insert({task: task});
+	add: function(data, callback) {
+		knex('tasks')
+			.insert({task: data})
+			.returning('id').asCallback(function(err, id) {
+      		if (err) return console.error(err);
+                
+      		callback(null, id);
+      	});
+
 	},
 	
 	change: function(id, text, callback) {
-		// TODO
+		knex('books')
+		  .where({'id' : id})
+		  .update({
+		    task: text
+		  }).asCallback(function(err, id) {
+      		if (err) return console.error(err);
+                
+      		callback(null, id);
+      	});
+
 	},
 
 	complete: function(id, callback) {
 		// TODO
 	},
 
-	delete: function(id, callback) {
-		// TODO
-	}
+	del: function(id, callback) {
+		knex('tasks')
+  		.where({'id': id})
+  		.del()
+  		.asCallback(function(err) {
+      		if (err) return console.error(err);
+
+          var result = 'delete succec';
+                
+      		callback(null, result);
+		  });
+    }
 };
 
 module.exports = Tasks;
