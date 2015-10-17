@@ -15,41 +15,46 @@ var knex = require('knex')({
 });
 
 var Tasks = {
-	list: function(callback) {
+	list: function(callback) { // получаем все задачи
 		knex.select('*').from('tasks').asCallback(function(err, data) {
-      		if (err) return console.error(err);
+      		if (err) return callback(err, null)
                 
       		callback(null, data);
       	});
 	},
-	listOne: function(id,callback) {
+	getOne: function(id,callback) { //получаем одну задачу для изменения
 		knex('tasks').where({
 			'id' : id
 		}).select('task').asCallback(function(err, data) {
-      		if (err) return console.error(err);
-                
-      		callback(null, data);
-      	});
+  		if(err){
+         return console.error(err);
+        callback(err, null);
+      }
+      else{
+        //console.log(data);
+        callback(null, data);
+      }		
+    });
 	},
 
-	add: function(data, callback) {
+	add: function(data, callback) { //добавляем задачу
 		knex('tasks')
 			.insert({task: data})
 			.returning('id').asCallback(function(err, id) {
-      		if (err) return console.error(err);
+      		if (err) return callback(err, null)
                 
       		callback(null, id);
       	});
 
 	},
 	
-	change: function(id, text, callback) {
+	change: function(id, text, callback) { // изменяем задачу
 		knex('books')
 		  .where({'id' : id})
 		  .update({
 		    task: text
 		  }).asCallback(function(err, id) {
-      		if (err) return console.error(err);
+      		if (err) return callback(err, null)
                 
       		callback(null, id);
       	});
@@ -60,15 +65,14 @@ var Tasks = {
 		// TODO
 	},
 
-	del: function(id, callback) {
+	del: function(id, callback) { // удаляем задачу
 		knex('tasks')
   		.where({'id': id})
   		.del()
   		.asCallback(function(err) {
-      		if (err) return console.error(err);
+      		if (err) return callback(err, null)
 
-          var result = 'delete succec';
-                
+          var result = 'delete success';
       		callback(null, result);
 		  });
     }
