@@ -49,13 +49,14 @@ var Tasks = {
 	},
 	
 	change: function(id, text, callback) { // изменяем задачу
-		knex('books')
+		knex('tasks')
 		  .where({'id' : id})
 		  .update({
 		    task: text
 		  }).asCallback(function(err, id) {
       		if (err) return callback(err, null)
                 
+          console.log(id);      
       		callback(null, id);
       	});
 
@@ -75,7 +76,20 @@ var Tasks = {
           var result = 'delete success';
       		callback(null, result);
 		  });
-    }
+  },
+  login: function(log, pas, callback) {
+    knex('user').where({
+      'username' : log
+    }).select('username, password').asCallback(function(err, data) {
+      if(err){
+         return console.error(err);
+        callback(err, null);
+      }
+      else{
+        callback(null, data);
+      }   
+    });
+  }
 };
 
 module.exports = Tasks;
